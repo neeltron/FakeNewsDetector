@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from flask import Flask, request, render_template
 
 
-df=pd.read_csv('news.csv')
+df=pd.read_csv('static/news.csv')
 
 df.shape
 df.head()
