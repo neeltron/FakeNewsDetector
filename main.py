@@ -35,28 +35,21 @@ pac.fit(tfidf_train,y_train)
 
 y_pred=pac.predict(tfidf_test)
 score=accuracy_score(y_test,y_pred)
-print(f'Accuracy: {round(score*100,2)}%')
 score = str(score)
-
-print(confusion_matrix(y_test,y_pred, labels=['FAKE','REAL']))
-
-
-
-print()
 
 app = Flask(__name__)
 
 @app.route('/')
 def my_form():
-    return render_template('index.html')
+    return render_template('index.html',text="Real/Fake")
 
 @app.route('/', methods=['POST'])
 def my_form_post():
     text = request.form['text']
     inp_string = [text]
     tfidf_input = tfidf_vectorizer.transform(inp_string)
-    processed_text = str(pac.predict(tfidf_input))
-    return processed_text
+    processed_text = pac.predict(tfidf_input)[0]
+    return render_template('index.html',text="The article is "+processed_text)
 
 if __name__ == "__main__":
     app.run(debug=True)
